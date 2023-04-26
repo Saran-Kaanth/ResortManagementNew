@@ -8,7 +8,8 @@ from .forms import *
 from django.urls import reverse_lazy
 from django.views.generic import ListView,DetailView
 from .models import Rooms
-from datetime import datetime
+import datetime as dt
+from datetime import datetime, date
 from django.db import connection
 # from django.http import request
 # Create your views here.
@@ -43,6 +44,12 @@ class RoomsListView(ListView):
     template_name="users/roomslist.html"
     context_object_name="rooms_list"
 
+    # def get(self, request,*args, **kwargs) :
+    #     setattr(self.request,'_mutable',True)
+    #     self.request.GET['check_in']=date.today().strftime(("%Y-%m-%d"))
+    #     self.request.GET['check_out']=(date.today()+dt.timedelta(days=1)).strftime("%Y-%m-%d")
+    #     return self.request
+
     # def get_queryset(self) :
     #     print("hii")
     #     rooms_list=Rooms.objects.raw("select * from rooms_Rooms limit 2")
@@ -52,16 +59,38 @@ class RoomsListView(ListView):
     #     return rooms_list
 
     def get_context_data(self, **kwargs):
-        print(self.request.GET)
-        print(not self.request.GET)
+        check_in=date.today().strftime(("%Y-%m-%d"))
+        check_out=(date.today()+dt.timedelta(days=1)).strftime("%Y-%m-%d")
+
+        self.request.session['check_in']=check_in
+        self.request.session['check_out']=check_out
+        
         context=super().get_context_data(**kwargs)
-        context['form']=RoomsSearchFrom()
+        # context['form']=RoomsSearchFrom(data={'check_in':dt.date.today,'check_out':dt.date.today})
+        context['form']=RoomsSearchForm(initial={'check_in':check_in,
+                                                'check_out':check_out})
+        # print(context['form'].data['check_in'])
         # context['rooms_list']=Rooms.objects.raw("select * from rooms_Rooms  where room_type='Classic' and room_no='C324'")
         if not self.request.GET:
-            context['name']='saran'
-        print(context)
-        self.request.session['testname']='testing'
-        return context
+            context['rooms_list']=Rooms.objects.raw(f'''
+                                                    Select * from rooms_rooms room where room.room_no not in 
+                                                    (Select booked_room_id from rooms_reservation reservation where 
+                                                    reservation.booked_from>={check_in} and reservation.booked_till<={check_out})
+                                                    ''')
+            return context
+            
+        else:
+            print(self.request.GET['room_type'])
+            context['rooms_list']=Rooms.objects.raw(f'''
+                                                    Select * from rooms_rooms room where room.room_no not in 
+                                                    (Select reservation.booked_room_id from rooms_reservation reservation, rooms_rooms roomobj where 
+                                                    reservation.booked_room_id=roomobj.room_no and
+                                                    (reservation.booked_from>={check_in} and reservation.booked_till<={check_out}) and
+                                                    roomobj.room_type='{self.request.GET['room_type']}'
+                                                    )
+                                                    ''')
+            print(context['rooms_list'])
+            return context
 
 class RoomDetailView(DetailView):
     model= Rooms
@@ -73,7 +102,6 @@ class RoomDetailView(DetailView):
     #     return super().get_object(queryset)
 
     def get_context_data(self, **kwargs) :
-        print("hi")
         context=super().get_context_data(**kwargs)
         context['testname']=self.request.session['testname']
         return context

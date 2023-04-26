@@ -13,17 +13,17 @@ class SampleForm(forms.Form):
     name=forms.CharField(max_length=10)
     age=forms.IntegerField()
 
-class RoomsSearchFrom(forms.Form):
+class RoomsSearchForm(forms.Form):
     room_type_choices=(("Premium","Premium"),
                         ("Classic","Classic"),
                         ("Cottage","Cottage"))
     check_in=forms.DateField(widget=forms.widgets.DateInput(attrs={
-                'type': 'date', 'placeholder': 'yyyy-mm-dd (DOB)',
+                'type': 'date', 'placeholder': datetime.datetime.today,
                 'style': 'max-width: 300px;',
                 'class':'form-control'
                 }))
     check_out=forms.DateField(widget=forms.widgets.DateInput(attrs={
-                'type': 'date', 'placeholder': 'yyyy-mm-dd (DOB)',
+                'type': 'date', 'placeholder': datetime.datetime.today,
                 'style': 'max-width: 300px;',
                 'class':'form-control'
                 }))
