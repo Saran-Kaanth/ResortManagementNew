@@ -18,7 +18,7 @@ from django.forms import TextInput, EmailInput,NumberInput,PasswordInput,RadioSe
 class CustomUserCreationForm(forms.ModelForm):
     class Meta:
         model = CustomUser
-        fields = ('email','password','first_name','last_name','age','gender','flat_no','area','city','state','pincode')
+        fields = ('email','password','first_name','last_name','age','gender','flat_no','area','city','state','pincode','mobile')
         
         gender_choices=(('Male','Male'),
                     ('Female','Female'),
@@ -75,6 +75,11 @@ class CustomUserCreationForm(forms.ModelForm):
                 'style': 'max-width: 300px;',
                 'placeholder': 'Pincode'
                 }),
+            'mobile':TextInput(attrs={
+                'class': "form-control", 
+                'style': 'max-width: 300px;',
+                'placeholder': 'Pincode'
+                }),
             
             # 'gender':RadioSelect(attrs={
             #     'class': "form-control", 
@@ -116,7 +121,8 @@ class CustomStaffCreationForm(CustomUserCreationForm):
                                         area=self.cleaned_data['area'],
                                         city=self.cleaned_data['city'],
                                         state=self.cleaned_data['state'],
-                                        pincode=self.cleaned_data['pincode'])
+                                        pincode=self.cleaned_data['pincode'],
+                                        mobile=self.cleaned_data['mobile'])
         print('success')
         return True
         # pass

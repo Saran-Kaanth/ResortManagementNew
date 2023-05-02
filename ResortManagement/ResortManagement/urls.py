@@ -18,21 +18,31 @@ from django.contrib import admin
 from django.urls import path
 from users import views as user_views
 from rooms import views as rooms_views
+from payment import views as payment_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('',user_views.indexView,name='index'),
     path('users/home/',user_views.userHomeView,name="userhome"),
     path('staff/staffhome/',user_views.staffHomeView,name="staffhome"),
-    path('user/register/',user_views.userRegisterView,name="userregister"),
+    path('users/register/',user_views.userRegisterView,name="userregister"),
+    path('users/myreservation/',user_views.MyReservationView.as_view(),name="myreservations"),
     path('login/',user_views.loginView,name="login"),
     path('logout/',user_views.logoutView,name="logout"),
     path('staff/staffregister/',user_views.StaffCreationView.as_view(),name="staffregister"),
     path('rooms/createroom/',rooms_views.RoomsCreationView.as_view(),name="createroom"),
     path('rooms/roomslist/',rooms_views.RoomsListView.as_view(),name="roomslist"),
-    path('rooms/<str:pk>/detail',rooms_views.RoomDetailView.as_view(),name="roomdetail"),
+    path('rooms/<str:pk>/detail/',rooms_views.RoomDetailView.as_view(),name="roomdetail"),
     path('sample/',rooms_views.SampleView.as_view(),name='sample'),
+    path('payment/paymentreview/',rooms_views.PaymentView.as_view(),name='paymentreview'),
+    path("payment/callback/", rooms_views.callback, name="callback"),
 ]
+    # path('indexpage/', rooms_views.homepage, name='indexpage'),
+    # path('paymenthandler/', rooms_views.paymenthandler, name='paymenthandler'),
+    
+    # path('payment/paymentaction/',rooms_views.paymentAction,name="paymentaction"),
+    # path("", payment_views.home, name="home"),
+    # path("payment/", payment_views.order_payment, name="payment"),
 
 
 

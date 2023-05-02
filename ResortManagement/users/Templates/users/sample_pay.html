@@ -1,0 +1,41 @@
+{% comment %} {% extends 'base.html' %} {% endcomment %}
+{% block content %}
+<h1>Your transaction is being processes!</h1>
+<h4>Please wait for the some time to complete the transaction</h4>
+<form method="POST">
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+var options = {
+    key: "{{razorpay_key_id}}", // Enter the Key ID generated from the Dashboard
+    amount: {{razorpay_amount}}, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+    currency: "{{razorpay_currency}}",
+    name: "YourHome", //your business name
+    description: "Transaction for Rooms Reservation",
+    image: "https://example.com/your_logo",
+    order_id: "{{razorpay_order_id}}", //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+    callback_url: "http://127.0.0.1:8000/payment/callback/",
+    prefill: {
+        "name": "{{request.user.first_name}}", //your customer's name
+        "email": "{{request.user.email}}"
+    },
+    notes: {
+        "address": "Resort Address"
+    },
+    theme: {
+        "color": "#3399cc"
+    }
+};
+var rzp1 = new Razorpay(options);
+rzp1.open();
+</script>
+    <input type="hidden" custom="Hidden Element" name="hidden">
+</form>
+{% endblock %}
+
+
+{% comment %} document.getElementById("pay-btn").onclick = function(e){
+    console.log("hello");
+    rzp1.open();
+    console.log(rzp1);
+    e.preventDefault();
+} {% endcomment %}

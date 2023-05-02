@@ -43,7 +43,9 @@
         <table>
         </br>
         <div style="padding-left:45%;">
-            <input type="submit" label="submit" name="label" value="Submit">&nbsp;&nbsp;&nbsp;<a href= {% url 'logout' %}>Logout</a>
+            <input type="submit" label="submit" name="label" value="Submit">&nbsp;&nbsp;&nbsp;
+            <a href= {% url 'logout' %}>Logout</a>
+            <span><a href={% url 'staffhome' %}>Back</a></span>
         </div>  
     </form>  
         {% endblock %}

@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'users',
     'rooms',
+    'payment',
     # 'crispy_forms',
     # "crispy_bootstrap5",
 ]
@@ -135,7 +136,16 @@ STATICFILES_DIRS = (
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
+RAZORPAY_KEY_ID="rzp_test_0Wa2w1hzK9igoP"
+RAZORPAY_KEY_SECRET="QZgVBHK9OL1j738fAxvAEAbb"
 
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'sarantesting001@gmail.com'
+# EMAIL_HOST_PASSWORD = 'twwdogmdtxervsmk'
+EMAIL_HOST_PASSWORD = 'yavtpjwurqbvtljr'
 
 
 # """

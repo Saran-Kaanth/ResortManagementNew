@@ -10,6 +10,13 @@
 <body>
 </br></br>
 {% block content %}
+<div class="container mt-3">
+        {% if error_message %}
+        <div class="alert alert-danger">
+            <strong>{{error_message}}</strong> 
+        </div>    
+        {% endif %}
+  </div>
 <div class="row">
     <div class="col-lg-4">
         <div class="container-sm align-content-sm-center">
@@ -20,7 +27,12 @@
 <form method="get">
     {% csrf_token %}
     {{form.as_p}}
-    <button type="submit" class="btn btn-primary">Submit</button>
+    <button type="submit" class="btn btn-primary">Submit</button> <span>
+    {% if user.is_staff %}
+      <a href={% url 'staffhome' %}>Back</a></span>
+    {% else %}
+      <a href={% url 'userhome' %}>Back</a></span>
+    {% endif %}
 </form>
         </div>
         
@@ -36,10 +48,13 @@
 {{ room.is_available }}</span>
 </div>
 <div class="card-body">
-{{ room.room_price }}
+<i class="bi bi-currency-rupee">
+<span ><b>&#8377;</b></span>
+</i>{{ room.room_price }}
 </div>
 <div class="card-footer text-center text-muted">
 <a href="{% url 'roomdetail' room.pk %}">Book Now</a>
+ {% comment %} <a href="{{room.get_absolute_url}}">Book Now</a> {% endcomment %}
 </div>
 </div>
 <br />

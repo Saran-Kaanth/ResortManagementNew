@@ -4,6 +4,9 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 from django.urls import reverse
 from  users.models import CustomUser
+from .constants import *
+
+
 
 # Create your models here.
 class Rooms(models.Model):
@@ -24,17 +27,35 @@ class Rooms(models.Model):
         return reverse("room_detail",kwargs={"pk":self.pk})
 
 class Reservation(models.Model):
-    reservation_choices=(('Check In','Checked In'),
-                         ('Check Out','Checked Out'),
-                        ('Hold','On Hold'))
-
-    
-    booked_room=models.OneToOneField(Rooms, on_delete=models.CASCADE,blank=True)
+    booked_room=models.ForeignKey(Rooms, on_delete=models.CASCADE,blank=True)
     booked_by=models.ForeignKey(CustomUser,on_delete=models.CASCADE)
     booked_from=models.DateField(verbose_name=_("Check In Date"),default=datetime.date.today)
     booked_till=models.DateField(verbose_name=_("Check Out Date"),default=datetime.date.today)
-    reservation_status=models.TextField(max_length=40,choices=reservation_choices,default='On Hold')
-    DisplayFields=['booked_room','booked_by','booked_from','booked_till','reservation_status']
+    reservation_amount=models.FloatField(verbose_name=_("Amount Paid"),default=0)
+    reservation_status=models.CharField(
+        _("Reservation Status"),
+        default=ReservationStatus.RESERVED,
+        max_length=254,
+        blank=False,
+        null=False,
+    )
+    payment_status = models.CharField(
+        _("Payment Status"),
+        default=PaymentStatus.PENDING,
+        max_length=254,
+        blank=False,
+        null=False,
+    )
+    provider_order_id = models.CharField(
+        _("Order ID"), max_length=40, null=False, blank=False,default=""
+    )
+    payment_id = models.CharField(
+        _("Payment ID"), max_length=36, null=False, blank=False,default=""
+    )
+    signature_id = models.CharField(
+        _("Signature ID"), max_length=128, null=False, blank=False,default=""
+    )
+    DisplayFields=['booked_room','booked_by','booked_from','booked_till','payment_status','reservation_status']
 
     
     def __str__(self):

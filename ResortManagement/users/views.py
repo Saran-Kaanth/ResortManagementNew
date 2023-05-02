@@ -1,3 +1,4 @@
+from queue import Empty
 from django.shortcuts import render,redirect
 from django.http.response import HttpResponse
 from .forms import *
@@ -8,7 +9,9 @@ from django.contrib.admin.views.decorators import staff_member_required
 from django.core.cache import cache
 from django.views.generic import CreateView
 from django.views.generic.edit import FormView
+from django.views.generic import ListView,DetailView,UpdateView
 from django.urls import reverse_lazy
+from rooms.models import *
 # Create your views here.
 
 def indexView(request):
@@ -20,6 +23,21 @@ def userHomeView(request):
 @staff_member_required
 def staffHomeView(request):
     return render(request,"users/staffHome.html")
+
+
+
+class MyReservationView(ListView):
+    model=Reservation
+    template_name="users/myreservation.html"
+
+    def get_context_data(self, **kwargs):
+        context=super().get_context_data(**kwargs)
+        reservation_list=Reservation.objects.filter(booked_by=self.request.user.id).all()
+        if reservation_list:
+            context["reservation_list"]=reservation_list
+        else:
+            context["reservation_list"]=None
+        return context
 
 def userRegisterView(request):
     cache.clear()
@@ -39,7 +57,8 @@ def userRegisterView(request):
                                                     area=request.POST['area'],
                                                     city=request.POST['city'],
                                                     state=request.POST['state'],
-                                                    pincode=request.POST['pincode'])
+                                                    pincode=request.POST['pincode'],
+                                                    mobile=request.POST['mobile'])
                 return redirect("login")
         else:
             messages.error(request,"Email already exists")
@@ -64,6 +83,8 @@ def loginView(request):
                 if my_user.is_staff:
                     return redirect('staffhome')
                 else:
+                    print(my_user.id)
+                    # return redirect(reverse('userhome',kwargs={"user_id":my_user.id}))
                     return redirect('userhome')
             else:
                 # return HttpResponse("User not found")

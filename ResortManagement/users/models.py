@@ -2,8 +2,8 @@ from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django.db import models
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
-
 from .managers import CustomUserManager
+from django.urls import reverse
 
 
 class CustomUser(AbstractBaseUser, PermissionsMixin):
@@ -30,10 +30,14 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     city=models.TextField(max_length=200,default='')
     state=models.TextField(max_length=200,default='')
     pincode=models.TextField(max_length=30,default='')
+    mobile=models.TextField(max_length=10,default='')
     DisplayFields=['email','first_name','last_name','gender','age','pincode']
 
     def __str__(self):
         return self.email
+
+    def get_absolute_url(self):
+        return reverse("user_detail",kwargs={"pk":self.pk})
     
 # class Rooms(models.Model):
 #     room_no=models.AutoField(primary_key=True)
