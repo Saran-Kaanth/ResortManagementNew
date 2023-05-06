@@ -12,6 +12,7 @@ from django.views.generic.edit import FormView
 from django.views.generic import ListView,DetailView,UpdateView
 from django.urls import reverse_lazy
 from rooms.models import *
+from rooms.constants import Message
 # Create your views here.
 
 def indexView(request):
@@ -24,7 +25,29 @@ def userHomeView(request):
 def staffHomeView(request):
     return render(request,"users/staffHome.html")
 
+class ProfileView(DetailView):
+    model=CustomUser
+    template_name="users/me.html"
+    context_object_name="me"
 
+class EditProfileView(UpdateView):
+    model=CustomUser
+    form_class=UserEditForm
+    # fields=(
+    #     "first_name",
+    #     "last_name",
+    #     "age",
+    #     "gender",
+
+    # )
+    template_name="users/editprofile.html"
+
+    def form_valid(self, form):
+        form.save()
+        message_text="Data has been successfully updated"
+        # return render(self.request,"users/editprofile.html",locals())
+        return super().form_valid(form)
+        # return render()
 
 class MyReservationView(ListView):
     model=Reservation
@@ -83,7 +106,7 @@ def loginView(request):
                 if my_user.is_staff:
                     return redirect('staffhome')
                 else:
-                    print(my_user.id)
+
                     # return redirect(reverse('userhome',kwargs={"user_id":my_user.id}))
                     return redirect('userhome')
             else:

@@ -37,7 +37,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         return self.email
 
     def get_absolute_url(self):
-        return reverse("user_detail",kwargs={"pk":self.pk})
+        return reverse("userprofile",kwargs={"pk":self.pk})
     
 # class Rooms(models.Model):
 #     room_no=models.AutoField(primary_key=True)

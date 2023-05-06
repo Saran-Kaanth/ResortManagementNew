@@ -24,6 +24,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('',user_views.indexView,name='index'),
     path('users/home/',user_views.userHomeView,name="userhome"),
+    path('users/<int:pk>/me',user_views.ProfileView.as_view(),name="userprofile"),
+    path('users/<int:pk>/me/edit',user_views.EditProfileView.as_view(),name="useredit"),
     path('staff/staffhome/',user_views.staffHomeView,name="staffhome"),
     path('users/register/',user_views.userRegisterView,name="userregister"),
     path('users/myreservation/',user_views.MyReservationView.as_view(),name="myreservations"),

@@ -11,7 +11,7 @@
 
 <nav class="navbar navbar-expand-sm bg-dark navbar-dark fixed-top">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#">
+    <a class="navbar-brand" href="{% url 'userprofile' user.id %}">
       <img  alt="Photo" style="width:10px;" class="rounded-pill"> 
     </a>
     <a class="navbar-brand" href={% url 'roomslist' %}>Book Rooms</a>

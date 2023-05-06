@@ -19,7 +19,7 @@ class CustomUserCreationForm(forms.ModelForm):
     class Meta:
         model = CustomUser
         fields = ('email','password','first_name','last_name','age','gender','flat_no','area','city','state','pincode','mobile')
-        
+        exclude=('',)
         gender_choices=(('Male','Male'),
                     ('Female','Female'),
                     ('Not Defined','Not Defined'))
@@ -78,7 +78,7 @@ class CustomUserCreationForm(forms.ModelForm):
             'mobile':TextInput(attrs={
                 'class': "form-control", 
                 'style': 'max-width: 300px;',
-                'placeholder': 'Pincode'
+                'placeholder': 'Mobile No'
                 }),
             
             # 'gender':RadioSelect(attrs={
@@ -99,6 +99,16 @@ class UserLoginForm(forms.ModelForm):
                 # 'placeholder': 'Password'
                 }),
         }
+
+class UserEditForm(CustomUserCreationForm):
+    def __init__(self, *args, **kwargs ):
+        super(UserEditForm,self).__init__(*args,**kwargs)
+    
+    class Meta(CustomUserCreationForm.Meta):
+        # fields=('first_name','last_name')
+        exclude=('email','password',)
+        # exclude=('password',)
+        # exclude=('password',)
         
 
 class CustomStaffCreationForm(CustomUserCreationForm):

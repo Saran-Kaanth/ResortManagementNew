@@ -201,7 +201,10 @@ def callback(request):
                         Payment Status: {PaymentStatus.SUCCESS}
                         '''
             recipient_list=[user.email,]
-            send_mail(subject,message,email_from,recipient_list)
+            try:
+                send_mail(subject,message,email_from,recipient_list)
+            except:
+                return render(request, "users/callback.html", context={"status":reservation.payment_status})
             return render(request, "users/callback.html", context={"status":reservation.payment_status})
         else:
             print("not verified")
@@ -220,7 +223,10 @@ def callback(request):
                         Payment Status: {PaymentStatus.FAILURE}
                         '''
             recipient_list=[request.user.email,]
-            send_mail(subject,message,email_from,recipient_list)
+            try:
+                send_mail(subject,message,email_from,recipient_list)
+            except:
+                return render(request, "users/callback.html", context={"status":reservation.payment_status})
             return render(request, "users/callback.html", context={"status":reservation.payment_status})
     else:
         payment_id = json.loads(request.POST.get("error[metadata]")).get("payment_id")
@@ -231,6 +237,7 @@ def callback(request):
         reservation.payment_id = payment_id
         reservation.reservation_status=ReservationStatus.RESERVED
         reservation.payment_status = PaymentStatus.FAILURE
+        reservation.save()
         message=f'''Hi {request.user.first_name},
                         We're glad to have you to choose our resort! 
                         Reservation Details
@@ -243,8 +250,10 @@ def callback(request):
                         Payment Status: {PaymentStatus.FAILURE}
                         '''
         recipient_list=[request.user.email,]
-        send_mail(subject,message,email_from,recipient_list)
-        reservation.save()
+        try:
+            send_mail(subject,message,email_from,recipient_list)
+        except:
+            return render(request, "users/callback.html", context={"status":reservation.payment_status})
         return render(request, "users/callback.html", context={"status":reservation.payment_status})
 
 
