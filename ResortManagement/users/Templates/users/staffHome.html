@@ -7,6 +7,6 @@
 </head>
 <h1> Staff Home Page </h1>
 <h3> Welcome {{user.first_name|default:'guest'}} &ThickSpace;&ThickSpace; <span><a href={% url 'logout' %}>Logout</a></span> </h3>
-<span><a href={% url 'createroom' %}>+Add</a></span>&ThickSpace;&ThickSpace;
+<span><a href={% url 'roomcreate' %}>+Add</a></span>&ThickSpace;&ThickSpace;
 <span><a href={% url 'roomslist' %}>View Rooms</a></span>
 

@@ -1,19 +1,15 @@
-from queue import Empty
 from django.shortcuts import render,redirect
-from django.http.response import HttpResponse
 from .forms import *
 from .models import *
 from django.contrib.auth import authenticate,logout,login
 from django.contrib import messages
 from django.contrib.admin.views.decorators import staff_member_required
 from django.core.cache import cache
-from django.views.generic import CreateView
 from django.views.generic.edit import FormView
 from django.views.generic import ListView,DetailView,UpdateView
 from django.urls import reverse_lazy
 from rooms.models import *
-from rooms.constants import Message
-# Create your views here.
+
 
 def indexView(request):
     return render(request,"users/index.html")
@@ -33,13 +29,6 @@ class ProfileView(DetailView):
 class EditProfileView(UpdateView):
     model=CustomUser
     form_class=UserEditForm
-    # fields=(
-    #     "first_name",
-    #     "last_name",
-    #     "age",
-    #     "gender",
-
-    # )
     template_name="users/editprofile.html"
 
     def form_valid(self, form):
@@ -163,8 +152,6 @@ class StaffCreationView(FormView):
 
     def form_invalid(self, form):
         messages.error(self.request,"User Already exists")
-        # return redirect('staffregister')
-        # return HttpResponse("User Already exists")
         return super().form_invalid(form)
 
 
