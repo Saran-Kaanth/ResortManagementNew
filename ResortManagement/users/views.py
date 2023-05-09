@@ -12,6 +12,7 @@ from rooms.models import *
 
 
 def indexView(request):
+    print("Welcome")
     return render(request,"users/index.html")
 
 def userHomeView(request):
