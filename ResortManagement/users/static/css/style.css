@@ -1,4 +1,4 @@
-h1 {
+/* h1 {
     color: white;
     font-size: 30px;
 }
@@ -11,8 +11,8 @@ table {
 
 .submit {
     font-size: 30px;
-}
+} */
 
 .checkBtn{
-    color:black
+    color: Blue;
 }
