@@ -38,9 +38,15 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
     'users',
     'rooms',
     'payment',
+    # 'social_django',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
     # 'crispy_forms',
     # "crispy_bootstrap5",
 ]
@@ -57,6 +63,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    # 'social_django.middleware.SocialAuthExceptionMiddleware',
 ]
 
 ROOT_URLCONF = 'ResortManagement.urls'
@@ -72,6 +79,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                # 'social_django.context_processors.backends',
             ],
         },
     },
@@ -122,6 +130,7 @@ USE_I18N = True
 USE_TZ = True
 
 
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
@@ -135,10 +144,11 @@ STATICFILES_DIRS = (
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-
+#Razorpay Payment Credentials
 RAZORPAY_KEY_ID="rzp_test_0Wa2w1hzK9igoP"
 RAZORPAY_KEY_SECRET="QZgVBHK9OL1j738fAxvAEAbb"
 
+#Email Credentials
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_USE_TLS = True
@@ -147,6 +157,41 @@ EMAIL_HOST_USER = 'sarantesting001@gmail.com'
 # EMAIL_HOST_PASSWORD = 'twwdogmdtxervsmk'
 EMAIL_HOST_PASSWORD = 'yavtpjwurqbvtljr'
 
+
+#oauth custom settings
+# AUTHENTICATION_BACKENDS=[
+#     'social_core.backends.google.GoogleOAuth2',
+#     'django.contrib.auth.backends.ModelBackend',
+# ]
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend'
+]
+
+
+
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'SCOPE': [
+            'profile',
+            'email',
+        ],
+        'AUTH_PARAMS': {
+            'access_type': 'online',
+        }
+    }
+}
+
+SITE_ID = 4
+
+LOGIN_URL = 'login'
+LOGIN_REDIRECT_URL = 'userhome'
+LOGOUT_URL = 'logout'
+LOGOUT_REDIRECT_URL = 'index'
+
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = "889497560355-riobqvbc6gnt4nq545d7mo6q322n74m8.apps.googleusercontent.com"
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = "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"
 
 # """
 # Django settings for ResortManagement project.

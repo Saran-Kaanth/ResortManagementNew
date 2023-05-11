@@ -60,6 +60,7 @@ def userRegisterView(request):
         print(user)
         if not user: 
             if form.is_valid():
+                print("hii user")
                 my_user=CustomUser.objects.create_user(email=request.POST['email'],
                                                     password=request.POST['password'],
                                                     first_name=request.POST['first_name'],

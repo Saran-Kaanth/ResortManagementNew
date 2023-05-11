@@ -22,6 +22,8 @@ from rooms import views as rooms_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('accounts/',include('allauth.urls')),
+    # path('social-auth/',include('social_django.urls',namespace="social")),
     path('',user_views.indexView,name='index'),
     path('users/',include('users.urls')),
     path('rooms/',include('rooms.urls')),
