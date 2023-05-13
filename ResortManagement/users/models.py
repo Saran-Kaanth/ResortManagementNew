@@ -30,7 +30,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     area=models.TextField(max_length=300,blank=True,null=False,default='')
     city=models.TextField(max_length=200,default='')
     state=models.TextField(max_length=200,default='')
-    pincode=models.TextField(max_length=30,default='')
+    pincode=models.IntegerField(blank=True, null=True)
     mobile=models.TextField(max_length=10,default='')
     DisplayFields=['email','first_name','last_name','gender','age','pincode']
 

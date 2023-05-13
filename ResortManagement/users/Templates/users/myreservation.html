@@ -42,7 +42,14 @@
                                         <td>{{reservation.booked_till}}</td>
                                         <td>{{reservation.reservation_amount}}</td>
                                         <td>{{reservation.payment_status}}</td>
-                                        <td>{{reservation.reservation_status}}</td>
+
+                                        {% if reservation.booked_from == todays_date %}
+                                            <td>Check in</td>
+                                        {% elif reservation.booked_till == todays_date %}
+                                            <td>{{reservation.reservation_status}}</td>
+                                        {% else %}
+                                            <td>{{reservation.reservation_status}}</td>
+                                        {% endif %}
                                     </tr>
                                 {% endfor %}
                                 </tbody>

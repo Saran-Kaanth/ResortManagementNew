@@ -15,7 +15,7 @@ class Rooms(models.Model):
                         ("Cottage","Cottage"))
     room_no=models.CharField(primary_key=True,verbose_name=_('Room No'),max_length=10)
     room_type=models.TextField(choices=room_type_choices,default="Classic",max_length=30)
-    room_price=models.IntegerField(default=0)
+    room_price=models.FloatField(default=0)
     # room_status=models.TextField(max_length=200)
     room_available=models.BooleanField(default=True)
     DisplayFields=['room_no','room_type','room_price','room_available']

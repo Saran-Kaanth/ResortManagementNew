@@ -9,6 +9,7 @@ from django.views.generic.edit import FormView
 from django.views.generic import ListView,DetailView,UpdateView
 from django.urls import reverse_lazy
 from rooms.models import *
+import datetime
 
 
 def indexView(request):
@@ -48,6 +49,13 @@ class MyReservationView(ListView):
         reservation_list=Reservation.objects.filter(booked_by=self.request.user.id).all()
         if reservation_list:
             context["reservation_list"]=reservation_list
+            context["todays_date"]=datetime.date.today()
+            for reservation in reservation_list:
+                print(reservation.booked_from)
+                print(datetime.date.today())
+                print(reservation.booked_from==datetime.date.today())
+                # print(type(reservation.booked_from))
+                # print(type(datetime.date.today()))
         else:
             context["reservation_list"]=None
         return context

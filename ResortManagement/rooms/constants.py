@@ -8,5 +8,5 @@ class ReservationStatus:
     CHECKED_OUT="Checked Out"
     RESERVED="Reserved"
 
-class Message:
-    message_text=None
+# class Message:
+#     message_text=None
