@@ -66,7 +66,7 @@ class Reservation(models.Model):
 
 class RoomFeedback(models.Model):
     user=models.ForeignKey(CustomUser,on_delete=models.CASCADE,blank=True)
-    room=models.OneToOneField(Rooms,on_delete=models.CASCADE,blank=True)
+    room=models.ForeignKey(Rooms,on_delete=models.CASCADE,blank=True)
     room_rating=models.IntegerField(default=0)
     resort_rating=models.IntegerField(default=0)
     feedback=models.TextField(max_length=400,blank=False,null=False,default='')
