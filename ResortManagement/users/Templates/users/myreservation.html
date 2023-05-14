@@ -43,10 +43,16 @@
                                         <td>{{reservation.reservation_amount}}</td>
                                         <td>{{reservation.payment_status}}</td>
 
-                                        {% if reservation.booked_from == todays_date %}
-                                            <td>Check in</td>
-                                        {% elif reservation.booked_till == todays_date %}
-                                            <td>{{reservation.reservation_status}}</td>
+                                        {% if reservation.booked_from == todays_date and reservation.reservation_status == 'Reserved' %}
+                                            <td>
+                                                <div class="d-grid">
+                                                    <a href="{% url 'checkin' reservation_id=reservation.id  %}" class="btn btn-primary btn-block">Check In</a> 
+                                                    </div>
+                                                </td>
+                                        {% elif reservation.booked_till == todays_date and reservation.reservation_status == 'Checked In' or reservation.reservation_status == 'Reserved'  %}
+                                            <td><div class="d-grid">
+                                                    <a href="{% url 'checkout' reservation_id=reservation.id  %}" class="btn btn-primary btn-block">Check Out</a> 
+                                                </div></td>
                                         {% else %}
                                             <td>{{reservation.reservation_status}}</td>
                                         {% endif %}

@@ -70,12 +70,12 @@ class CustomUserCreationForm(forms.ModelForm):
                 'style': 'max-width: 300px;',
                 'placeholder': 'State'
                 }),
-            'pincode': TextInput(attrs={
+            'pincode': NumberInput(attrs={
                 'class': "form-control", 
                 'style': 'max-width: 300px;',
                 'placeholder': 'Pincode'
                 }),
-            'mobile':TextInput(attrs={
+            'mobile':NumberInput(attrs={
                 'class': "form-control", 
                 'style': 'max-width: 300px;',
                 'placeholder': 'Mobile No'

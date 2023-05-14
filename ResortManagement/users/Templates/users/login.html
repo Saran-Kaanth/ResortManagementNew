@@ -14,7 +14,6 @@
             <h4>{{msg}}</h4>
           {% endfor %}
         {% endif %}
-        {% comment %} {{ form|crispy }} {% endcomment %}
          {% for field in form%}
         <tr>
             <td>{{ field.errors }}</td>
@@ -43,7 +42,6 @@
             </button>
         </div>
     </div>
-
 
 {% endblock %}
         

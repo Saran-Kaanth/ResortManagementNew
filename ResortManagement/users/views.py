@@ -32,12 +32,13 @@ class EditProfileView(UpdateView):
     model=CustomUser
     form_class=UserEditForm
     template_name="users/editprofile.html"
+    # success_url=redirect('useredit/')
 
     def form_valid(self, form):
         form.save()
         message_text="Data has been successfully updated"
-        # return render(self.request,"users/editprofile.html",locals())
-        return super().form_valid(form)
+        return render(self.request,"users/editprofile.html",locals())
+        # return super().form_valid(form)
         # return render()
 
 class MyReservationView(ListView):
@@ -50,15 +51,10 @@ class MyReservationView(ListView):
         if reservation_list:
             context["reservation_list"]=reservation_list
             context["todays_date"]=datetime.date.today()
-            for reservation in reservation_list:
-                print(reservation.booked_from)
-                print(datetime.date.today())
-                print(reservation.booked_from==datetime.date.today())
-                # print(type(reservation.booked_from))
-                # print(type(datetime.date.today()))
         else:
             context["reservation_list"]=None
         return context
+
 
 def userRegisterView(request):
     cache.clear()
@@ -68,7 +64,6 @@ def userRegisterView(request):
         print(user)
         if not user: 
             if form.is_valid():
-                print("hii user")
                 my_user=CustomUser.objects.create_user(email=request.POST['email'],
                                                     password=request.POST['password'],
                                                     first_name=request.POST['first_name'],
@@ -86,7 +81,6 @@ def userRegisterView(request):
             messages.error(request,"Email already exists")
     else:
         form=CustomUserCreationForm
-        # return render(request,"users/register.html",{"form":form})
     form=CustomUserCreationForm
     return render(request,"users/register.html",{"form":form})
 
@@ -113,9 +107,9 @@ def loginView(request):
                 messages.error(request,"User Not found")
     else:
         form=UserLoginForm()
-        return render(request,"users/login.html",{'form':form})
+        return render(request,"account/login.html",{'form':form})
     form=UserLoginForm
-    return render(request,"users/login.html",{'form':form})
+    return render(request,"account/login.html",{'form':form})
 
 def logoutView(request):
     logout(request)

@@ -1,5 +1,3 @@
-from locale import currency
-from queue import Empty
 from django.shortcuts import render
 from django.views.generic.edit import FormView
 from django.contrib.admin.views.decorators import staff_member_required
@@ -12,11 +10,10 @@ from django.views.generic import ListView,DetailView,TemplateView
 from .models import Rooms
 import datetime as dt
 from datetime import datetime, date
-import razorpay
-# from django.conf import settings
-from ResortManagement.settings import RAZORPAY_KEY_ID,RAZORPAY_KEY_SECRET,EMAIL_HOST_USER
 from django.http import HttpResponseBadRequest,HttpResponse
 from .constants import *
+from django.shortcuts import redirect
+from django.views.generic import FormView
 
 # from django.db import connection
 
@@ -106,8 +103,6 @@ class RoomsListView(ListView):
                 return context
 
 
-
-
 class RoomDetailView(DetailView):
     model= Rooms
     template_name="users/roomdetail.html"
@@ -117,11 +112,33 @@ class RoomDetailView(DetailView):
         self.request.session["room_no"]=self.object.room_no       
         return context
 
+def checkInView(request,reservation_id):
+    Reservation.objects.filter(pk=reservation_id).update(reservation_status=ReservationStatus.CHECKED_IN)
+    return redirect("myreservations")
+
+def checkOutView(request,reservation_id):
+    if request.method=="POST":  
+        room=Reservation.objects.filter(pk=reservation_id).first()
+        RoomFeedback.objects.create(user=request.user,
+                                    room=room.booked_room,
+                                    room_rating=request.POST["room_rating"],
+                                    resort_rating=request.POST["resort_rating"],
+                                    feedback=request.POST["feedback"])
+        return render(request,"users/thanks.html")
+    
+    Reservation.objects.filter(pk=reservation_id).update(reservation_status=ReservationStatus.CHECKED_OUT)
+    return render(request,"users/feedback.html",locals())
+
+# class CheckOutView(FormView):
+#     model=RoomFeedback
+#     template_name="users/feedback.html"
+#     form_class=RoomFeedBackForm
+#     success_url="/thanks/"
 
 
 
 
-#     auth=(settings.RAZOR_KEY_ID, settings.RAZOR_KEY_SECRET))
+# auth=(settings.RAZOR_KEY_ID, settings.RAZOR_KEY_SECRET))
 
 # def homepage(request):
 #     currency = 'INR'

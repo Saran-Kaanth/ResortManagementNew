@@ -1,0 +1,41 @@
+{% extends 'users/base.html' %}
+{% block title %}Feedback{% endblock %}
+{% block content %}
+    
+    {% comment %} <div class="container mt-3"> {% endcomment %}
+    <div class="feedback">
+        <h1> Feedback Form </h1>
+         <form method="POST">
+         {% csrf_token %}
+            {% comment %} <div class="mb-3 mt-3"> {% endcomment %}
+                <label for="room_rating" class="form-label">Your overall experience with our rooms</label><br>
+                <span class="star-rating" required>
+                    <input type="radio" name="room_rating" value=1 required><i></i>
+                    <input type="radio" name="room_rating" value=2><i></i>
+                    <input type="radio" name="room_rating" value=3><i></i>
+                    <input type="radio" name="room_rating" value=4><i></i>
+                    <input type="radio" name="room_rating" value=5><i></i>
+                </span>
+            {% comment %} </div> {% endcomment %}
+            <div class="clear"></div> 
+            <hr class="survey-hr">
+            <div class="mb-3">
+                <label for="resort_rating" class="form-label">Your overall experience with our resort</label><br>
+                <span class="star-rating" required>
+                    <input type="radio" name="resort_rating" value=1 required><i></i>
+                    <input type="radio" name="resort_rating" value=2><i></i>
+                    <input type="radio" name="resort_rating" value=3><i></i>
+                    <input type="radio" name="resort_rating" value=4><i></i>
+                    <input type="radio" name="resort_rating" value=5><i></i>
+                </span>
+            </div>
+            <div class="clear"></div> 
+            <hr class="survey-hr">
+            <div class="mb-3 mt-3">
+                <label for="feedback">Short Feedback to help you and others next time</label>
+                <textarea class="form-control" rows="5" id="feedback" name="feedback" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+            </form> 
+        </div>
+{% endblock %}

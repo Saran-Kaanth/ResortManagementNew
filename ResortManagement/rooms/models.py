@@ -63,3 +63,19 @@ class Reservation(models.Model):
 
     def get_absolute_url(self):
         return reverse("reservation_detail",kwargs={"pk":self.pk})
+
+class RoomFeedback(models.Model):
+    user=models.ForeignKey(CustomUser,on_delete=models.CASCADE,blank=True)
+    room=models.OneToOneField(Rooms,on_delete=models.CASCADE,blank=True)
+    room_rating=models.IntegerField(default=0)
+    resort_rating=models.IntegerField(default=0)
+    feedback=models.TextField(max_length=400,blank=False,null=False,default='')
+
+    def __str__(self):
+        return f"{self.room.room_no}: {self.room_rating}"
+
+    def absolute_url(self):
+        return reverse("room_feedback",kwargs={"pk":self.pk})
+    
+
+

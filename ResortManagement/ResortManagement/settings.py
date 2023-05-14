@@ -42,7 +42,6 @@ INSTALLED_APPS = [
     'users',
     'rooms',
     'payment',
-    # 'social_django',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
@@ -136,7 +135,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, "users/static/"),
+    os.path.join(BASE_DIR, "users/static"),
 )
 
 # Default primary key field type

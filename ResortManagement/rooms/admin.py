@@ -10,4 +10,6 @@ class RoomAdmin(admin.ModelAdmin):
 class ReservationAdmin(admin.ModelAdmin):
     list_display=Reservation.DisplayFields
 
+admin.site.register(RoomFeedback)
+
 # Register your models here.
