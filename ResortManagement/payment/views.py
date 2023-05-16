@@ -137,6 +137,7 @@ def callback(request):
                         '''
         recipient_list=[request.user.email,]
         try:
+            print("mail sent")
             send_mail(subject,message,email_from,recipient_list)
         except:
             return render(request, "users/callback.html", context={"status":reservation.payment_status})

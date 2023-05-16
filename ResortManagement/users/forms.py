@@ -93,10 +93,15 @@ class UserLoginForm(forms.ModelForm):
         model=CustomUser
         fields=('email','password',)
         widgets = {
+        'email':EmailInput(attrs={
+                'class': "form-control",
+                'style': 'max-width: 300px;',
+                'placeholder': 'Email'
+                }),
          'password':PasswordInput(attrs={
                 'class': "form-control",
                 'style': 'max-width: 300px;',
-                # 'placeholder': 'Password'
+                'placeholder': 'Password'
                 }),
         }
 

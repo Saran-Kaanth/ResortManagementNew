@@ -3,17 +3,21 @@
 {% block title %}Sign In{% endblock %}
 
 {% block content %}
-    <h1 style="padding-left: 45%; padding-top:18%;">login</h1>
-    <div class="container d-flex align-items-center justify-content">
+{% load static%}
+<body style="background-image:url({%static 'login.jpg' %});background-size:cover;">
+<div style="margin-top:5%;margin-left:15%;width:600px">
+  <div style="padding-left:20%;">
+    <h1 style=" padding-top:18%;">login</h1>
+    {% comment %} <div class="container d-flex align-items-center justify-content"> {% endcomment %}
         
         <table >
         <form method="post">
             {% csrf_token %}
-            {% if messages %}
+            {% comment %} {% if messages %}
           {% for msg in messages %}
             <h4>{{msg}}</h4>
           {% endfor %}
-        {% endif %}
+        {% endif %} {% endcomment %}
         
          {% for field in form%}
         <tr>
@@ -27,27 +31,27 @@
     {% endfor %} 
         </table>
     
-        </div>
+        
     </br>
         
-            <input type="submit" label="submit" name="label" value="login">&nbsp;&nbsp;&nbsp;<a href= {% url 'userregister' %}>Sign Up</a>
-    
+            <input type="submit" label="submit"class="btn btn-info ml-2" name="label" value="login">&nbsp;&nbsp;&nbsp;<a href= {% url 'userregister' %}>Sign Up</a>
+            &nbsp;&nbsp;&nbsp;
+            <a href="{% provider_login_url 'google' %}" class="btn btn-primary btn-block">Sign in with Google</a>
     </form>
     
 
-    <div class="row">
+    {% comment %} <div class="row">
         <div class="col-md-8 mx-auto social-container my-2 order-md-1">
             <button class="btn mb-2">
                 {% comment %} <a href="{% url 'social:begin' 'google-oauth2' %}">Login with Google</a>
                 <a class="checkBtn" href="{% url "google_login" %}">Login with Google</a> {% endcomment %}
-                <a href="{% provider_login_url 'google' %}" class="btn btn btn-danger btn-block">Sign in with Google</a>
-            </button>
+                
+          
         </div>
     </div>
 
 {% endblock %} 
-        
-
+  </body>
 {% comment %} {% load socialaccount %}
 
 <!doctype html>

@@ -19,12 +19,14 @@ from django.contrib import admin
 from django.urls import path,include
 from users import views as user_views
 from rooms import views as rooms_views
+from django.views.generic import TemplateView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/',include('allauth.urls')),
     # path('social-auth/',include('social_django.urls',namespace="social")),
     path('',user_views.indexView,name='index'),
+    path('deleteconfirmation/',TemplateView.as_view(template_name="users/delete_confirmation.html"),name="deleteconfirmation"),
     path('users/',include('users.urls')),
     path('rooms/',include('rooms.urls')),
     path('payment/',include('payment.urls')),

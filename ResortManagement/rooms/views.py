@@ -6,7 +6,7 @@ from django.views.decorators.csrf import csrf_exempt
 import rooms
 from .forms import *
 from django.urls import reverse_lazy
-from django.views.generic import ListView,DetailView,TemplateView
+from django.views.generic import ListView,DetailView,TemplateView, DeleteView
 from .models import Rooms
 import datetime as dt
 from datetime import datetime, date
@@ -14,6 +14,8 @@ from django.http import HttpResponseBadRequest,HttpResponse
 from .constants import *
 from django.shortcuts import redirect
 from django.views.generic import FormView
+from ResortManagement.settings import EMAIL_HOST_USER
+from django.core.mail import send_mail
 
 # from django.db import connection
 
@@ -31,6 +33,9 @@ class RoomsCreationView(FormView):
         message="Data Saved Successfully"
         form=self.form_class
         return render(self.request,"users/roomcreation.html",locals())
+
+   
+        
 
     def form_invalid(self, form):
         error_message="Check with your data"
@@ -111,6 +116,34 @@ class RoomDetailView(DetailView):
         context=super().get_context_data(**kwargs)
         self.request.session["room_no"]=self.object.room_no       
         return context
+
+class ReservationDeleteView(DeleteView):
+    model=Reservation
+    success_url=reverse_lazy("deleteconfirmation")
+    template_name="users/reservation_confirm_delete.html"
+
+    def form_valid(self, form) :
+        print(self.object.booked_room)
+        subject="Reservation Cancellation Confirmation"
+        message=f'''Hi {self.request.user.first_name},
+                        We're felt very sorry of your reservation cancellation with our resort.
+                        We hope to see you soon in our resort.
+                        You're always welcome.
+                        Reservation Cancellation Details
+                        Customer Name: {self.request.user.first_name} {self.request.user.last_name}
+                        Room No.: {self.object.booked_room}
+                        Check In Date: {self.object.booked_from}
+                        Check Out Date: {self.object.booked_till}
+                        Amount Paid: {self.object.reservation_amount}
+                        
+
+                        The amount paid will be credited to your account within 3 to 5 business days.
+                        '''
+        recipient_list=[self.request.user.email,]
+        email_from=EMAIL_HOST_USER
+        send_mail(subject,message,email_from,recipient_list)
+        return super().form_valid(form)
+
 
 def checkInView(request,reservation_id):
     Reservation.objects.filter(pk=reservation_id).update(reservation_status=ReservationStatus.CHECKED_IN)

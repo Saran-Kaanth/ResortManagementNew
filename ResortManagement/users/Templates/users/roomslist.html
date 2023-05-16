@@ -7,7 +7,8 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 </style>
     </head>
-<body>
+    {%load static%}
+<body style="background-image:url({%static 'hotel_room.jpg' %});color:white;">
 </br></br>
 {% block content %}
 <div class="container mt-3">
@@ -41,7 +42,7 @@
         <div class="container-sm">
         <h1>Choose your rooms</h1>
         {% for room in rooms_list %}
-<div class="card">
+<div class="card" style="color:blue">
 <div class="card-header">
 <span class="font-weight-bold">{{ room.room_no }}</span> &middot;
 <span class="text-muted"> {{ room.room_type }} |

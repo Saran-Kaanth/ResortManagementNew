@@ -7,8 +7,10 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     </head>
-<body>
+    {%load static%}
+<body style="background-image:url({%static 'pay4.jpg' %});background-size:cover;">
 {% block content %}
+<div style="margin-left:50px;margin-right:50px;margin-top:70px;color:white">
     <div class="container-sm align-content-sm-center">
         <div class="row">
             <div class="col-lg-6">
@@ -69,7 +71,7 @@
     </div>
 
 
-
+</div>
 {% endblock %}
 </body>
 
