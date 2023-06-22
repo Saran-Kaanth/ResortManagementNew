@@ -32,6 +32,7 @@ class RoomsCreationView(FormView):
         form.save()
         message="Data Saved Successfully"
         form=self.form_class
+        print(form)
         return render(self.request,"users/roomcreation.html",locals())
 
    
